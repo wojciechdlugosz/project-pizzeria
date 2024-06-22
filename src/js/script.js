@@ -53,8 +53,10 @@ const select = {
   };
 
   class Product {
-    constructor() {
+    constructor(id, data) {
       const thisProduct = this;
+      thisProduct.id = id;
+      thisProduct.data = data;
       console.log('new Product:', thisProduct);
     }
   }

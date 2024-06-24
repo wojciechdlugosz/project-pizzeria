@@ -62,7 +62,7 @@ const select = {
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
       thisProduct.processOrder();
-      console.log('new Product:', thisProduct);
+      //console.log('new Product:', thisProduct);
     }
     renderInMenu(){
       const thisProduct = this;  
@@ -101,11 +101,11 @@ const select = {
 
         /* prevent default action for event */
         event.preventDefault();
-        console.log(event);
+        //console.log(event);
 
         /* find active product (product that has active class) */
         const activeProduct = document.querySelector(select.all.menuProductsActive);
-        console.log(activeProduct);
+        //console.log(activeProduct);
 
         /* if there is active product and it's not thisProduct.element, remove class active from it */
         if(activeProduct && activeProduct !== thisProduct.element) {
@@ -119,7 +119,7 @@ const select = {
     }
     initOrderForm (){
       const thisProduct = this;
-      console.log(thisProduct);
+      //console.log(thisProduct);
 
       thisProduct.form.addEventListener('submit', function(event){
         event.preventDefault();
@@ -140,11 +140,11 @@ const select = {
 
     processOrder (){
       const thisProduct = this;
-      console.log(thisProduct);
+      //console.log(thisProduct);
 
       // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
       const formData = utils.serializeFormToObject(thisProduct.form);
-      console.log('formData', formData);
+      //console.log('formData', formData);
 
       // set price to default price
       let price = thisProduct.data.price;
@@ -153,13 +153,33 @@ const select = {
       for(let paramId in thisProduct.data.params) {
         // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
         const param = thisProduct.data.params[paramId];
-        console.log(paramId, param);
+        //console.log(paramId, param);
 
         // for every option in this category
         for(let optionId in param.options) {
           // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
-          console.log(optionId, option);
+          //console.log(optionId, option);
+
+          //console.log('formData[paramId] oznacza:', formData[paramId]);
+          //console.log(optionId);
+          //console.log(option.default);
+
+          // check if formData includes option the same as param key and 
+          //const paramExists = formData.hasOwnProperty(paramId);
+          //console.log('param exists: ', paramExists);
+
+          // check if this array includes marked option
+          //console.log(formData[paramId].includes(optionId));
+
+          if (formData[paramId] && formData[paramId].includes(optionId)) {
+            if (!option.default) { // check if this option is marked and not default
+              price = price + option['price'];
+            } 
+          } else if (option.default) { // check if this option is NOT marked and default
+            price = price - option['price'];
+          }
+
         }
       }
 
@@ -172,7 +192,7 @@ const select = {
   const app = {
     initMenu: function(){
       const thisApp = this;
-      console.log('thisApp.data:', thisApp.data);
+      //console.log('thisApp.data:', thisApp.data);
       for(let productData in thisApp.data.products){
         new Product(productData, thisApp.data.products[productData]);
       }

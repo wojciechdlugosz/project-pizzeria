@@ -172,12 +172,16 @@ const select = {
           // check if this array includes marked option
           //console.log(formData[paramId].includes(optionId));
 
-          if (formData[paramId] && formData[paramId].includes(optionId)) {
-            if (!option.default) { // check if this option is marked and not default
-              price = price + option['price'];
+          // create const checking if an option is selected
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+
+          // change product price depening on selected options
+          if (optionSelected) {
+            if (!option.default) { // check if this option is selected and NOT default
+              price = price + option.price;
             } 
-          } else if (option.default) { // check if this option is NOT marked and default
-            price = price - option['price'];
+          } else if (option.default) { // check if this option is NOT selected and default
+            price = price - option.price;
           }
 
         }

@@ -228,7 +228,13 @@ const select = {
       const thisWidget = this;
 
       thisWidget.getElements(element);
-      thisWidget.setValue(thisWidget.input.value);
+      //thisWidget.setValue(thisWidget.input.value);
+      //thisWidget.setValue(settings.amountWidget.defaultValue);
+      if (thisWidget.input.value) {
+        thisWidget.setValue(thisWidget.input.value);
+      } else {
+        thisWidget.setValue(settings.amountWidget.defaultValue);
+      }
       thisWidget.initActions();
 
       console.log('AmountWidget: ', thisWidget);

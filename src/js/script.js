@@ -91,6 +91,7 @@
       const thisProduct = this;
       thisProduct.id = id;
       thisProduct.data = data;
+      thisProduct.name = thisProduct.data.name;
       thisProduct.renderInMenu();
       thisProduct.getElements();
       thisProduct.initAccordion();
@@ -237,10 +238,12 @@
         }
       }
 
+      thisProduct.priceSingle = price;
       // multiply price by amount 
+      thisProduct.amount = thisProduct.amountWidget.value;
       price *= thisProduct.amountWidget.value;
-
       // update calculated price in the HTML
+      thisProduct.price = price;
       thisProduct.priceElem.innerHTML = price;
 
     }
@@ -258,8 +261,62 @@
 
     addToCart(){
       const thisProduct = this;
-
       app.cart.add(thisProduct);
+      app.cart.add(thisProduct.prepareCartProduct());
+    }
+
+    prepareCartProduct(){
+      const thisProduct = this;
+
+      const productSummary = {
+        id: thisProduct.id,
+        name: thisProduct.name,
+        amount: thisProduct.amount,
+        priceSingle: thisProduct.priceSingle,
+        price: thisProduct.price,
+
+        params: thisProduct.prepareCartProductParams()
+      };
+
+      return productSummary;
+    }
+
+    prepareCartProductParams(){
+      const thisProduct = this;
+
+      // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      //console.log('formData', formData);
+
+      //create an empty object for product params
+      const params = {};
+
+      // for every category (param)...
+      for(let paramId in thisProduct.data.params) {
+        // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
+        const param = thisProduct.data.params[paramId];
+
+        // create category param in params const eg. params = { ingredients: { name: 'Ingredients', options: {}}}
+        params[paramId] = {
+          label: param.label,
+          options: {}
+        };
+
+        // for every option in this category
+        for(let optionId in param.options) {
+          // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
+          const option = param.options[optionId];
+
+          // create const checking if an option is selected
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+
+          // create object depending on selected options
+          if (optionSelected) {
+            params[paramId].options[optionId] = option.label;
+          }        
+        }
+      }
+      return params;
     }
 
   }
@@ -278,8 +335,8 @@
       }
       thisWidget.initActions();
 
-      console.log('AmountWidget: ', thisWidget);
-      console.log('constructor arguments: ', element);
+      //console.log('AmountWidget: ', thisWidget);
+      //console.log('constructor arguments: ', element);
     }
     getElements(element){
       const thisWidget = this;
@@ -293,8 +350,6 @@
       const thisWidget = this;
 
       const newValue = parseInt(value);
-
-      /* TODO: Add validation */
 
       if(thisWidget.value !== newValue && !isNaN(newValue) && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax) {
         thisWidget.value = newValue;
@@ -345,6 +400,7 @@
       thisCart.dom = {};
       thisCart.dom.wrapper = element; 
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger); 
+      thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
     }
 
     initActions(){
@@ -356,7 +412,16 @@
     }
 
     add(menuProduct){
-      // const thisCart = this;
+      const thisCart = this;
+
+      /* generate HTML based on template */
+      const generatedHTML = templates.cartProduct(menuProduct);
+
+      /* create element using utils.createElementFromHTMl */
+      const generatedDOM = utils.createDOMFromHTML(generatedHTML);
+
+      /* add element to container */
+      thisCart.dom.productList.appendChild(generatedDOM);
 
       console.log('adding product', menuProduct);
     }

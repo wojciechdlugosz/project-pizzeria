@@ -72,6 +72,11 @@
       defaultMin: 1,
       defaultMax: 9,
     }, // CODE CHANGED
+    db: {
+      url: '//localhost:3131',
+      products: 'products',
+      orders: 'orders',
+    },
     // CODE ADDED START
     cart: {
       defaultDeliveryFee: 20,

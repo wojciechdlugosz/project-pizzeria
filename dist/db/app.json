@@ -206,53 +206,10 @@
     {
       "address": "",
       "phone": "",
-      "totalPrice": 29,
+      "totalPrice": 0,
       "deliveryFee": 20,
-      "products": [
-        {
-          "id": "cake",
-          "amount": 1,
-          "price": 9,
-          "priceSingle": 9,
-          "name": "Zio Stefano's Doughnut",
-          "params": {}
-        }
-      ],
+      "products": [],
       "id": 1
-    },
-    {
-      "address": "",
-      "phone": "",
-      "totalPrice": 29,
-      "deliveryFee": 20,
-      "products": [
-        {
-          "id": "cake",
-          "amount": 1,
-          "price": 9,
-          "priceSingle": 9,
-          "name": "Zio Stefano's Doughnut",
-          "params": {}
-        }
-      ],
-      "id": 2
-    },
-    {
-      "address": "",
-      "phone": "",
-      "totalPrice": 29,
-      "deliveryFee": 20,
-      "products": [
-        {
-          "id": "cake",
-          "amount": 1,
-          "price": 9,
-          "priceSingle": 9,
-          "name": "Zio Stefano's Doughnut",
-          "params": {}
-        }
-      ],
-      "id": 3
     }
   ]
 }

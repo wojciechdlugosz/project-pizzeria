@@ -59,7 +59,7 @@ class Cart{
       /* add element to container */
       thisCart.dom.productList.appendChild(generatedDOM);
 
-      console.log('adding product', menuProduct);
+      //console.log('adding product', menuProduct);
 
       thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
       //console.log('thisCart.products', thisCart.products);
@@ -79,15 +79,15 @@ class Cart{
         totalNumber += CartProduct.amount;
         subtotalPrice += CartProduct.price;
       }
-      console.log('total number', totalNumber);
-      console.log('subtotal price', subtotalPrice);
+      //console.log('total number', totalNumber);
+      //console.log('subtotal price', subtotalPrice);
 
       if ( totalNumber > 0 ){
         thisCart.totalPrice = subtotalPrice + deliveryFee
       } else { 
         thisCart.totalPrice = 0 
       }
-      console.log('total price', thisCart.totalPrice);
+      //console.log('total price', thisCart.totalPrice);
 
       thisCart.dom.totalNumber.innerHTML = totalNumber;
       thisCart.dom.subtotalPrice.innerHTML = subtotalPrice;
